@@ -1,0 +1,6 @@
+{
+  "name": "AI Assignment Mentor",
+  "description": "Interactive Socratic advisor and work planner that analyzes PDF briefs, sparks student ideation through design-thinking queries without giving final answers, and builds task checklists.",
+  "requestFramePermissions": ["microphone"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

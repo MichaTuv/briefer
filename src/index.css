@@ -1,0 +1,116 @@
+@import url('https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&family=Inter:wght@400;500;600;700&display=swap');
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-sans: "Rubik", "Inter", system-ui, -apple-system, sans-serif;
+  --font-display: "Rubik", system-ui, sans-serif;
+
+  /* Bauhaus accents */
+  --color-bauhaus-red: #E8402F;
+  --color-bauhaus-blue: #0E5AA7;
+  --color-bauhaus-yellow: #F2B705;
+  --color-bauhaus-black: #171614;
+  --color-bauhaus-beige: #F3F1E7;
+
+  /* Semantic surfaces — flipped under .dark */
+  --color-paper: #FFFFFF;
+  --color-canvas: #F3F1E7;
+  --color-ink: #171614;
+}
+
+/* Dark environment: warm near-black canvas, light ink, slightly lifted accents */
+.dark {
+  --color-paper: #211F1C;
+  --color-canvas: #14120F;
+  --color-ink: #F1EDE3;
+  --color-bauhaus-red: #F45B49;
+  --color-bauhaus-blue: #5B9BDD;
+  --color-bauhaus-yellow: #F7C63F;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--color-canvas);
+  color: var(--color-ink);
+  overscroll-behavior: none;
+  -webkit-tap-highlight-color: transparent;
+  transition: background-color 0.35s ease, color 0.35s ease;
+}
+
+/* Hard Bauhaus offset shadows (follow ink so they read in dark mode too) */
+@utility shadow-hard {
+  box-shadow: 4px 4px 0px var(--color-ink);
+}
+@utility shadow-hard-sm {
+  box-shadow: 2px 2px 0px var(--color-ink);
+}
+@utility shadow-hard-red {
+  box-shadow: 4px 4px 0px var(--color-bauhaus-red);
+}
+@utility shadow-hard-blue {
+  box-shadow: 4px 4px 0px var(--color-bauhaus-blue);
+}
+@utility shadow-hard-yellow {
+  box-shadow: 4px 4px 0px var(--color-bauhaus-yellow);
+}
+
+/* Glassmorphism surface: translucency + blur + a whisper of noise for depth */
+@utility glass {
+  background-color: color-mix(in srgb, var(--color-paper) 62%, transparent);
+  -webkit-backdrop-filter: blur(18px) saturate(1.5);
+  backdrop-filter: blur(18px) saturate(1.5);
+  position: relative;
+}
+@utility glass-strong {
+  background-color: color-mix(in srgb, var(--color-paper) 82%, transparent);
+  -webkit-backdrop-filter: blur(22px) saturate(1.6);
+  backdrop-filter: blur(22px) saturate(1.6);
+  position: relative;
+}
+@utility glass-red {
+  background-color: color-mix(in srgb, var(--color-bauhaus-red) 80%, transparent);
+  -webkit-backdrop-filter: blur(14px) saturate(1.4);
+  backdrop-filter: blur(14px) saturate(1.4);
+  position: relative;
+}
+.glass::after,
+.glass-strong::after,
+.glass-red::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.05;
+  border-radius: inherit;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/></filter><rect width='140' height='140' filter='url(%23n)'/></svg>");
+}
+.dark .glass::after,
+.dark .glass-strong::after {
+  opacity: 0.07;
+}
+
+/* Safe-area helpers for real phones (notch / home indicator) */
+@utility pt-safe {
+  padding-top: env(safe-area-inset-top);
+}
+@utility pb-safe {
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+/* Customized scrollbar for clean visual aesthetic */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: color-mix(in srgb, var(--color-ink) 25%, transparent);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: color-mix(in srgb, var(--color-ink) 40%, transparent);
+}
